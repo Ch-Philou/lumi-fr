@@ -1,0 +1,463 @@
+{
+    "Lumi-fr": {
+        "name": "Lumi",
+        "eqType_name": "jMQTT",
+        "configuration": {
+            "type": "eqpt",
+            "createtime": "2022-09-06 15:28:06",
+            "auto_add_cmd": "0",
+            "auto_add_topic": "%s\/#",
+            "Qos": "1",
+            "battery_type": "Secteur",
+            "commentaire": "For details and elements https:\/\/github.com\/Ch-Philou\/lumi-fr",
+            "icone": "custom",
+            "updatetime": "2022-09-21 21:44:53",
+            "previousIsEnable": "1",
+            "previousIsVisible": "0"
+        },
+        "category": {
+            "heating": "0",
+            "security": "0",
+            "energy": "0",
+            "light": "1",
+            "opening": "0",
+            "automatism": "0",
+            "multimedia": "1",
+            "default": "0"
+        },
+        "display": {
+            "width": "232px",
+            "height": "524px"
+        },
+        "status": {
+            "lastCommunication": "2022-09-16 18:21:32",
+            "enableDatime": "2022-09-16 18:21:32"
+        },
+        "cache": {
+            "z2m_eq_name": "0xa4c13835765d6154",
+            "mqtt_client_eqId": "18"
+        },
+        "commands": [
+            {
+                "eqType": "jMQTT",
+                "name": "state",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/state"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "icon": "<i class=\"fas fa-power-off \"><\/i>",
+                    "invertBinary": "0"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "alarm:set",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/alarm\/set"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "0",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "light-2",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "0",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "audio:play",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/audio\/play",
+                    "jsonPath": "[url]"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "icon": "<i class=\"fas fa-music \"><\/i>",
+                    "invertBinary": "0"
+                },
+                "isVisible": "0",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "audio_play",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/audio\/play\/set"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "0",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "audio_volume",
+                "type": "info",
+                "subType": "numeric",
+                "isHistorized": "0",
+                "unite": "%",
+                "configuration": {
+                    "topic": "%s\/audio\/volume",
+                    "minValue": "0",
+                    "maxValue": "100"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "button_action",
+                "type": "info",
+                "subType": "numeric",
+                "isHistorized": "0",
+                "unite": "Click",
+                "configuration": {
+                    "topic": "%s\/button\/action",
+                    "minValue": "0",
+                    "maxValue": "3"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "illuminance",
+                "type": "info",
+                "subType": "numeric",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/il%snance",
+                    "minValue": "0",
+                    "maxValue": "5000"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "LightState",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light",
+                    "jsonPath": "[state]"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "saying",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/say\/set"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "0",
+                "alert": []
+            },
+            {
+                "generic_type": "LIGHT_SET_COLOR_TEMP",
+                "eqType": "jMQTT",
+                "name": "Light",
+                "type": "action",
+                "subType": "select",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light\/set",
+                    "request": "{\"state\":\"#select#\"}",
+                    "listValue": "ON|ON;OFF|OFF",
+                    "retain": "0",
+                    "autoPub": "0",
+                    "timeline::enable": "0",
+                    "interact::auto::disable": "0",
+                    "actionConfirm": "0",
+                    "actionCheckCmd": [],
+                    "jeedomPreExecCmd": [],
+                    "jeedomPostExecCmd": []
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "icon": "<i class=\"icon jeedom-lumiere-off \"><\/i>",
+                    "showNameOndashboard": "1",
+                    "showNameOnmobile": "1",
+                    "showIconAndNamedashboard": "1",
+                    "showIconAndNamemobile": "1",
+                    "forceReturnLineBefore": "0",
+                    "forceReturnLineAfter": "0",
+                    "parameters": []
+                },
+                "value": "LightState",
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "Read Music",
+                "type": "action",
+                "subType": "select",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/audio\/play\/set",
+                    "request": "{\"url\":\"#select#\"}",
+                    "listValue": "STOP|STOP;http:\/\/streaming.radio.rtl2.fr\/rtl2-1-44-64?listen=webCwsBCggNCQgLDQUGBAcGBg|RTL2;http:\/\/stream.virginradio.fr\/virgin.mp3|Virgin",
+                    "retain": "0",
+                    "autoPub": "0",
+                    "timeline::enable": "0",
+                    "interact::auto::disable": "0",
+                    "actionConfirm": "0",
+                    "actionCheckCmd": [],
+                    "jeedomPreExecCmd": [],
+                    "jeedomPostExecCmd": []
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "icon": "<i class=\"icon techno-television4 \"><\/i>",
+                    "showNameOndashboard": "1",
+                    "showNameOnmobile": "1",
+                    "showIconAndNamedashboard": "1",
+                    "showIconAndNamemobile": "1",
+                    "forceReturnLineBefore": "0",
+                    "forceReturnLineAfter": "0",
+                    "parameters": []
+                },
+                "value": "audio_play",
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "ReadAlarm",
+                "type": "action",
+                "subType": "other",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/audio\/play\/set",
+                    "request": "{\"url\":\"\\\/Sounds\\\/Alarm3.mp3\"}",
+                    "retain": "0",
+                    "autoPub": "0"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "value": "audio_play",
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "SayText",
+                "type": "action",
+                "subType": "message",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/say\/set",
+                    "request": "{\"text\":\"#message#\",\"lang\":\"fr\"}",
+                    "retain": "0",
+                    "autoPub": "0"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "value": "saying",
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "StopRead",
+                "type": "action",
+                "subType": "other",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/audio\/play\/set",
+                    "request": "{\"url\":\"STOP\"}",
+                    "retain": "0",
+                    "autoPub": "0"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "icon": "<i class=\"far fa-stop-circle \"><\/i>"
+                },
+                "value": "audio_play",
+                "isVisible": "0",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "LightTimeout",
+                "type": "action",
+                "subType": "other",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light\/set",
+                    "request": "{\"state\":\"ON\",\"timeout\":5}",
+                    "minValue": "1",
+                    "maxValue": "360",
+                    "retain": "0",
+                    "autoPub": "0"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "value": "LightState",
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "AlarmOn",
+                "type": "action",
+                "subType": "other",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/alarm\/set",
+                    "request": "{\"state\":\"ON\",\"color\":{\"r\":255,\"g\":0,\"b\":0},\"time\":\"0.5\",\"count\":5}",
+                    "retain": "0",
+                    "autoPub": "0"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "generic_type": "SET_VOLUME",
+                "eqType": "jMQTT",
+                "name": "Volume",
+                "type": "action",
+                "subType": "slider",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/audio\/volume\/set",
+                    "request": "#slider#",
+                    "minValue": "0",
+                    "maxValue": "100",
+                    "retain": "0",
+                    "autoPub": "0",
+                    "timeline::enable": "0",
+                    "interact::auto::disable": "0",
+                    "actionConfirm": "0",
+                    "actionCheckCmd": [],
+                    "jeedomPreExecCmd": [],
+                    "jeedomPostExecCmd": []
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "icon": "<i class=\"icon jeedom2-fdp1-signal3 \"><\/i>",
+                    "showNameOndashboard": "1",
+                    "showNameOnmobile": "1",
+                    "showIconAndNamedashboard": "1",
+                    "showIconAndNamemobile": "1",
+                    "forceReturnLineBefore": "0",
+                    "forceReturnLineAfter": "0",
+                    "parameters": []
+                },
+                "value": "audio_volume",
+                "isVisible": "1",
+                "alert": []
+            }
+        ]
+    }
+}
