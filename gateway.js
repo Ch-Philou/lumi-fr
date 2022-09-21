@@ -215,10 +215,11 @@ function getLamp() {
 
     if (lamp.real_color.r + lamp.real_color.g + lamp.real_color.b > 0) {
         lamp.value.state = 'ON';
+        lamp.value.colorhex='#'+lamp.real_color.r.toString(16).padStart(2, '0')+lamp.real_color.g.toString(16).padStart(2, '0')+lamp.real_color.b.toString(16).padStart(2, '0');
         mqtt.publish_json(lamp);
     } else {
         lamp.value.state = 'OFF';
-        // Публикуем только состояние, чтобы не потерять последний заданный цвет
+        // We publish only the state so as not to lose the last set color
         mqtt.publish_json({state_topic: lamp.state_topic, value: {state: lamp.value.state}});
     }
 }
@@ -255,6 +256,13 @@ function setLamp(message) {
                 lamp.value.color.r = msg.color.r;
                 lamp.value.color.g = msg.color.g;
                 lamp.value.color.b = msg.color.b;
+                common.myLog('Setting Color ' + lamp.value.color.r + ','+ lamp.value.color.g + ',' + lamp.value.color.b + ' on lumi');
+            }
+            if (msg.colorhex) {
+                lamp.value.color.r = Number("0x"+msg.colorhex.substring(1, 3));
+                lamp.value.color.g = Number("0x"+msg.colorhex.substring(3, 5));
+                lamp.value.color.b = Number("0x"+msg.colorhex.substring(5, 7));
+                common.myLog('Setting ColorHex ' + lamp.value.color.r + ','+ lamp.value.color.g + ',' + lamp.value.color.b + ' on lumi');
             }
             if (msg.brightness) {
                 lamp.value.brightness = Math.round(0.2126 * lamp.value.color.r + 0.7152 * lamp.value.color.g + 0.0722 * lamp.value.color.b);
@@ -425,6 +433,10 @@ function setAlarm(message) {
             }
 
             if (msg.color) {
+                setLamp(message);
+            }
+
+            if (msg.colorhex) {
                 setLamp(message);
             }
 
