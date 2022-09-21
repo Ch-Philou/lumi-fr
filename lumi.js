@@ -13,16 +13,16 @@ if (common.config.sound_volume != 0) {
     gateway.setVolume(common.config.sound_volume);
 }
 
-// Запускаем таймер 1
+// Démarrer la minuterie 1 pour la luminosité
 setInterval(() => {
     gateway.getIlluminance(common.config.sensor_treshhold);
 }, 1 * 1000);
 
-// Запускаем таймер 2 для публикации состояний датчиков
+// Démarrage la minuterie 2 pour publier les états des capteurs
 let timer_ID = setTimeout( function tick() {
-    common.myLog('timer 2', common.colors.cyan);
+    common.myLog('timer 2: Publish sensor values', common.colors.cyan);
 
-    // Отправляем состояния устройств
+    // Envoi des états de l'appareil
     gateway.getState();
 
     timer_ID = setTimeout(tick, common.config.sensor_debounce_period * 1000);

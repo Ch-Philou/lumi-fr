@@ -6,7 +6,7 @@ const mqtt_client = mqtt.connect(common.config.mqtt_url, common.config.mqtt_opti
 mqtt_client.on('connect', () => {
     common.myLog('mqtt_client.connect', common.colors.green);
 
-    // Отправляем состояния устройств
+    // Sending device states
     gateway.getState();
     gateway.getLamp();
     gateway.getIlluminance();
@@ -19,7 +19,7 @@ mqtt_client.on('connect', () => {
 });
 
 mqtt_client.on('message', (topic, message) => {
-    common.myLog('Получен topic= ' + topic, common.colors.yellow);
+    common.myLog('Received topic = ' + topic, common.colors.yellow);
     common.myLog('message = ' + message);
     try {
         switch (topic.split("/")[1]) {
@@ -61,6 +61,8 @@ mqtt_client.on('error', err => {
 
 function publish_json(device, retain = false) {
     try {
+        common.myLog('Publishing on : ' + device.state_topic + ' value : '+ device);
+
         mqtt_client.publish(device.state_topic, JSON.stringify(device.value), {retain: retain});
     } catch (e) {
         common.myLog(e, common.colors.red);
