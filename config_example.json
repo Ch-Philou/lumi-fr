@@ -2,30 +2,27 @@
 	"sensor_debounce_period": 300,
 	"sensor_treshhold": 50,
 	"button_click_duration": 300,
-
+			
 	"homeassistant": true,
-
 	"tts_cache": true,
-
 	"sound_channel": "Master",
 	"sound_volume": 50,
-
-	"mqtt_url": "mqtt://адрес mqtt сервера",
+	"mqtt_url": "mqtt://<MQTT Broker's IP>",
 	"mqtt_topic": "lumi",
 	"use_mac_in_mqtt_topic": false,
 	"mqtt_options": {
-		"port": 1883,
-		"username":"логин для mqtt сервера",
-		"password": "пароль для mqtt сервера",
-		"keepalive": 60,
-		"reconnectPeriod": 1000,
-		"clean": true,
-		"encoding": "utf8",
-		"will": {
-			"topic": "lumi/state",
-			"payload": "offline",
-			"qos": 1,
-			"retain": true
-		}
+	  "port": 1883,
+	  "username": "username",
+	  "password": "password",
+	  "keepalive": 60,
+	  "reconnectPeriod": 1000,
+	  "clean": true,
+	  "encoding": "utf8",
+	  "will": {
+		"topic": "lumi/state",
+		"payload": "offline",
+		"qos": 1,
+		"retain": true
+	  }
 	}
-}
+  }
