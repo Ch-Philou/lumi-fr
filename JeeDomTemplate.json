@@ -1,6 +1,6 @@
 {
     "Lumi-fr": {
-        "name": "Lumi",
+        "name": "Lumi SS",
         "eqType_name": "jMQTT",
         "configuration": {
             "type": "eqpt",
@@ -189,7 +189,7 @@
                 "configuration": {
                     "topic": "%s\/il%snance",
                     "minValue": "0",
-                    "maxValue": "5000"
+                    "maxValue": "4000"
                 },
                 "template": {
                     "dashboard": "default",
@@ -210,6 +210,46 @@
                 "configuration": {
                     "topic": "%s\/light",
                     "jsonPath": "[state]"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "LightColor",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light",
+                    "jsonPath": "[color]"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "invertBinary": "0"
+                },
+                "isVisible": "0",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "LightColorHex",
+                "type": "info",
+                "subType": "string",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light",
+                    "jsonPath": "[colorhex]"
                 },
                 "template": {
                     "dashboard": "default",
@@ -332,7 +372,7 @@
                     "mobile": "default"
                 },
                 "value": "audio_play",
-                "isVisible": "1",
+                "isVisible": "0",
                 "alert": []
             },
             {
@@ -352,7 +392,7 @@
                     "mobile": "default"
                 },
                 "value": "saying",
-                "isVisible": "1",
+                "isVisible": "0",
                 "alert": []
             },
             {
@@ -376,47 +416,6 @@
                 },
                 "value": "audio_play",
                 "isVisible": "0",
-                "alert": []
-            },
-            {
-                "eqType": "jMQTT",
-                "name": "LightTimeout",
-                "type": "action",
-                "subType": "other",
-                "isHistorized": "0",
-                "configuration": {
-                    "topic": "%s\/light\/set",
-                    "request": "{\"state\":\"ON\",\"timeout\":5}",
-                    "minValue": "1",
-                    "maxValue": "360",
-                    "retain": "0",
-                    "autoPub": "0"
-                },
-                "template": {
-                    "dashboard": "default",
-                    "mobile": "default"
-                },
-                "value": "LightState",
-                "isVisible": "1",
-                "alert": []
-            },
-            {
-                "eqType": "jMQTT",
-                "name": "AlarmOn",
-                "type": "action",
-                "subType": "other",
-                "isHistorized": "0",
-                "configuration": {
-                    "topic": "%s\/alarm\/set",
-                    "request": "{\"state\":\"ON\",\"color\":{\"r\":255,\"g\":0,\"b\":0},\"time\":\"0.5\",\"count\":5}",
-                    "retain": "0",
-                    "autoPub": "0"
-                },
-                "template": {
-                    "dashboard": "default",
-                    "mobile": "default"
-                },
-                "isVisible": "1",
                 "alert": []
             },
             {
@@ -456,6 +455,84 @@
                 },
                 "value": "audio_volume",
                 "isVisible": "1",
+                "alert": []
+            },
+            {
+                "generic_type": "LIGHT_SET_COLOR",
+                "eqType": "jMQTT",
+                "name": "SetColor",
+                "type": "action",
+                "subType": "color",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light\/set",
+                    "request": "{\"state\":\"ON\",\"colorhex\":\"#color#\"}",
+                    "retain": "0",
+                    "autoPub": "0",
+                    "lastCmdValue": "#14dbf1",
+                    "timeline::enable": "0",
+                    "interact::auto::disable": "0",
+                    "actionConfirm": "0",
+                    "actionCheckCmd": [],
+                    "jeedomPreExecCmd": [],
+                    "jeedomPostExecCmd": []
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "display": {
+                    "icon": "<i class=\"icon divers-viral \"><\/i>",
+                    "showNameOndashboard": "1",
+                    "showNameOnmobile": "1",
+                    "showIconAndNamedashboard": "1",
+                    "showIconAndNamemobile": "1",
+                    "forceReturnLineBefore": "0",
+                    "forceReturnLineAfter": "0",
+                    "parameters": []
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "AlarmOn",
+                "type": "action",
+                "subType": "other",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/alarm\/set",
+                    "request": "{\"state\":\"ON\",\"color\":{\"r\":255,\"g\":0,\"b\":0},\"time\":\"0.5\",\"count\":5}",
+                    "retain": "0",
+                    "autoPub": "0"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "isVisible": "1",
+                "alert": []
+            },
+            {
+                "eqType": "jMQTT",
+                "name": "LightTimeout",
+                "type": "action",
+                "subType": "other",
+                "isHistorized": "0",
+                "configuration": {
+                    "topic": "%s\/light\/set",
+                    "request": "{\"state\":\"ON\",\"timeout\":5}",
+                    "minValue": "1",
+                    "maxValue": "360",
+                    "retain": "0",
+                    "autoPub": "0"
+                },
+                "template": {
+                    "dashboard": "default",
+                    "mobile": "default"
+                },
+                "value": "LightState",
+                "isVisible": "0",
                 "alert": []
             }
         ]
