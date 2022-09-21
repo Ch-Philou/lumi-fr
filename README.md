@@ -122,6 +122,7 @@ git pull
 ---|---|---
 lumi/light/set | {"state":"ON"} | Turn on backlight 
 lumi/light/set | {"state":"ON", "color":{"r":50,"g":50,"b":50}} | Turn on highlight with specified color
+lumi/light/set | {"state":"ON", "colorhex":"#00AA00"} | Turn on highlight with specified hexadecimal color
 lumi/light/set | {"state":"ON", "timeout": 30} | Turn on the backlight and turn it off after the specified time (sec) 
 lumi/light/set | {"state":"OFF"} | Turn off backlight 
 ||
@@ -144,3 +145,4 @@ lumi/alarm/set | {"state":"OFF"} | Turn off flashing lamp
 - Set language to english
 - Fix an issue (when settin alarm state was erased by a valu wich broke status)
 - Add A Jeedom Template for easy integration
+- add hex color :)
