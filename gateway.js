@@ -37,7 +37,7 @@ let state = {
     value: 'online'
 }
 
-// Начальные параметры лампы
+// Initial Lamp Settings
 let lamp = {
     state_topic: common.config.mqtt_topic + '/light',
     value: {
@@ -175,8 +175,9 @@ let audio = {
 
 ///////////////
 
-// Отправляем данные о статусе шлюза
+// Sending data about the gateway status
 function getState() {
+    common.myLog('Publishing gateway status ' + state);
     mqtt.publish_value(state, true);
     getIlluminance();
     getLamp();
@@ -195,7 +196,7 @@ function getState() {
     }
 }
 
-// Отправляем данные датчика освещенности
+// Sending light sensor data
 function getIlluminance(treshhold = 0) {
     let ill_prev = illuminance.value;
     illuminance.value = parseInt(fs.readFileSync('/sys/bus/iio/devices/iio:device0/in_voltage5_raw'));
@@ -204,7 +205,7 @@ function getIlluminance(treshhold = 0) {
     }
 }
 
-// Получаем текущее состояние лампы
+// Get the current state of the lamp
 function getLamp() {
     lamp.real_color.r = parseInt(fs.readFileSync(lamp.path.r).toString());
     lamp.real_color.g = parseInt(fs.readFileSync(lamp.path.g).toString());
@@ -222,34 +223,34 @@ function getLamp() {
     }
 }
 
-// Сохраняем текущее состояние лампы перед включением Alarm
+// Saving the current state of the lamp before turning on the Alarm
 function saveLamp() {
     lamp.save_value = JSON.stringify(lamp.value);
 }
 
-// Восстанавливаем состояние лампы до Alarm
+// Restoring the lamp state to Alarm
 function restoreLamp() {
     setLamp(lamp.save_value);
 }
 
-// Меняем состояние лампы в зависимости от полученных данных
+// Change the state of the lamp depending on the received data
 function setLamp(message) {
     try {
         common.myLog("setLamp. lamp=" + message);
-        let state;
+        let lampstate;
         let msg = JSON.parse(message);
         if (msg.state) {
-            state = msg.state.toUpperCase();
+            lampstate = msg.state.toUpperCase();
         } else {
-            state = msg.toUpperCase();
+            lampstate = msg.toUpperCase();
         }
 
-        if (state === 'OFF') {
+        if (lampstate === 'OFF') {
             fs.writeFileSync(lamp.path.r, '0');
             fs.writeFileSync(lamp.path.g, '0');
             fs.writeFileSync(lamp.path.b, '0');
         }
-        if (state === 'ON') {
+        if (lampstate === 'ON') {
             if (msg.color) {
                 lamp.value.color.r = msg.color.r;
                 lamp.value.color.g = msg.color.g;
@@ -279,7 +280,7 @@ function setLamp(message) {
     getLamp();
 }
 
-// Получаем состояние проигрывателя
+// Get the state of the player
 function getPlay() {
     audio.play.value.name = cp.execSync("mpc current --format '%name% - %artist% - %title%'").toString().replace(/ -  -/g, ' -').replace('\n', '');
     if (audio.play.value.name.length < 5) {
@@ -288,7 +289,7 @@ function getPlay() {
     mqtt.publish_json(audio.play);
 }
 
-// Включаем/выключаем проигрыватель
+// Turn on/off the player
 function setPlay(message) {
     try {
         let msg = JSON.parse(message);
@@ -312,8 +313,10 @@ function setPlay(message) {
         } else {
             audio.play.value.url = url;
             if (url.toLowerCase().substring(0, 4) == 'http') {
+                common.myLog('Reading a url ' + audio.play.value.url + ' on lumi');
                 cp.execSync('mpc clear && mpc add ' + audio.play.value.url + ' && mpc play');
             } else {
+                common.myLog('Reading a file ' + audio.play.value.url + ' on lumi');
                 cp.execSync('mpg123 "' + audio.play.value.url + '"');
             }
         }
@@ -323,11 +326,11 @@ function setPlay(message) {
         }, 1 * 1000);
     } catch (e) {
         common.myLog(e, common.colors.red);
-        sayText('Произошла ошибка!', 'ru');
+        sayText('An erreur occur!', 'en');
     }
 }
 
-// Получаем состояние о громкости
+// Getting the volume state
 function getVolume() {
     audio.volume.value = cp.execSync("amixer get " + common.config.sound_channel + " | awk '$0~/%/{print $4}' | tr -d '[]%'").toString().split(os.EOL)[0];
     mqtt.publish_json(audio.volume);
@@ -335,13 +338,13 @@ function getVolume() {
     return audio.volume.value;
 }
 
-// Устанавливаем громкость
+// Setting the volume
 function setVolume(volume) {
     cp.execSync('amixer sset "' + common.config.sound_channel + '" ' + volume + '%');
     getVolume();
 }
 
-// Произнести указанный текст
+// Speak the specified text
 function setSay(message) {
     try {
         let msg = JSON.parse(message);
@@ -350,12 +353,12 @@ function setSay(message) {
             setVolume(msg.volume);
         }
 
-        let lang = 'ru';
+        let lang = 'en';
         if (msg.lang) {
             lang = msg.lang;
         }
 
-        let text = 'Ошибка';
+        let text = 'Text requested';
         if (msg.text) {
             text = msg.text;
         } else {
@@ -387,28 +390,28 @@ function setSay(message) {
         }
     } catch (e) {
         common.myLog(e, common.colors.red);
-        sayText('Произошла ошибка!', 'ru');
+        sayText('An erreur occur!', 'en');
     }
 }
 
-// Включаем световое уведомление
+// Turn on light notification
 function setAlarm(message) {
     try {
+        let Alarmstate;
         let msg = JSON.parse(message);
-
         if (msg.state) {
-            state = msg.state.toUpperCase();
+            Alarmstate = msg.state.toUpperCase();
         } else {
-            state = msg.toUpperCase();
+            Alarmstate = msg.toUpperCase();
         }
 
         if (lamp.alarm_timer != 0) {
             stopAlarm();
         }
 
-        if (state === 'OFF') {
+        if (Alarmstate === 'OFF') {
             restoreLamp();
-        } else if (state === 'ON') {
+        } else if (Alarmstate === 'ON') {
             saveLamp();
 
             let type = 0;
@@ -449,12 +452,13 @@ function setAlarm(message) {
         }
     } catch (e) {
         common.myLog(e, common.colors.red);
+        sayText('An erreur occur!', 'en');
     }
 }
 
-// Отключаем световое уведомление
+// Turn off light notification
 function stopAlarm() {
-    common.myLog("Останавливаем Alarm.");
+    common.myLog("Stop Alarm.");
     clearTimeout(lamp.alarm_timer);
     lamp.alarm_timer = 0;
 }
@@ -533,7 +537,7 @@ function publishButton() {
     mqtt.publish_value(button);
 }
 
-// Получаем данные о кнопке
+// Getting button data
 fd = fs.createReadStream(button.device, button.options);
 fd.on('data', function (buf) {
     let i, j, chunk = 16;
