@@ -146,3 +146,117 @@ lumi/alarm/set | {"state":"OFF"} | Turn off flashing lamp
 - Fix an issue (when settin alarm state was erased by a valu wich broke status)
 - Add A Jeedom Template for easy integration
 - add hex color :)
+
+
+### Troubleshoot
+
+#### MDP
+
+Sometime, MPD-MPC does not work properly. When you run this
+```bash
+mpc current --format '%name% - %artist% - %title%'
+```
+```txt
+MPD error: Connection refused
+```
+and
+```bash
+/etc/init.d/mpd start
+```
+gaves you
+```txt
+mkdir: can't create directory '': No such file or directory
+BusyBox v1.36.1 (2024-09-23 12:34:46 UTC) multi-call binary.
+
+Usage: chown [-Rh]... USER[:[GRP]] FILE...
+
+Change the owner and/or group of FILEs to USER and/or GRP
+
+        -h      Affect symlinks instead of symlink targets
+        -R      Recurse
+```
+if you cat process run:
+```txt
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2007-2014 OpenWrt.org
+
+START=93
+
+USE_PROCD=1
+
+PROG=/usr/bin/mpd
+CONFIGFILE=/etc/mpd.conf
+NICEPRIO=-10
+
+USER="mpd"
+GROUP="mpd"
+
+#TODO: Add uci config - nice, config
+
+start_service() {
+        local pld lport
+
+        #create mpd directories from config
+        pld=$(grep ^playlist_directory "$CONFIGFILE" | cut -d "\"" -f 2 | sed "s/~/\/root/g")
+        if [ ! -d "$pld" ]; then
+                mkdir -m 0755 -p "$pld"
+                chown $USER:$GROUP $pld
+        fi
+
+        lport=$(grep ^port "$CONFIGFILE" | cut -d "\"" -f 2)
+        [ -z "$lport" ] && lport=6600
+
+        procd_open_instance
+        procd_add_mdns "mpd" "tcp" "$lport"
+        procd_set_param command "$PROG" --no-daemon "$CONFIGFILE"
+        procd_set_param user "$USER"
+        procd_set_param group "$GROUP"
+        procd_set_param stderr 1
+        # Give MPD some real-time priority
+        procd_set_param nice "$NICEPRIO"
+        procd_close_instance
+}
+```
+Base on error return the line $(grep ^playlist_directory "$CONFIGFILE" | cut -d "\"" -f 2 | sed "s/~/\/root/g") is the problem.
+By the way, let's check audio_output
+
+```bash
+ aplay -l
+```
+```txt
+**** List of PLAYBACK Hardware Devices ****
+card 0: tfa9882audio [tfa9882-audio], device 0: 2028000.sai-tfa9882-hifi tfa9882-hifi-0 [2028000.sai-tfa9882-hifi tfa9882-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
+Let's stop update param and create  folder
+```bash
+/etc/init.d/mpd stop
+mkdir "/usr/share/playlist"
+vi /etc/mdp.conf
+```
+and set conf :)
+```conf
+playlist_directory		"/usr/share/playlist"
+user				"mpd"
+group				"audio"
+audio_output {
+        type            "alsa"
+        name            "My ALSA Device"
+        device          "hw:0,0"        # optional found in 'aplay -l' return
+        format          "44100:16:2"    # optional
+        mixer_device    "default"       # optional
+        mixer_control   "PCM"           # optional
+        mixer_index     "0"             # optional
+}
+```
+Check all stuff
+```bash
+/etc/init.d/mpd start
+mpc current --format '%name% - %artist% - %title%'
+/etc/init.d/lumi start
+```
+\o/ No error
+
+#### MQTT
+Well try to connect to our Lumi with MQTT_explorer is a good way to check.
