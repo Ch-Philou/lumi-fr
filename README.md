@@ -35,7 +35,7 @@ Download lumi:
 mkdir /opt
 cd /opt
 git clone https://github.com/Ch-Philou/lumi-fr.git
-cd lumi
+cd lumi-fr
 cp config_example.json config.json
 ```
 
@@ -90,13 +90,13 @@ Parameter | Description
 Running:
 
 ```
-node /opt/lumi/lumi.js
+node /opt/lumi-fr/lumi.js
 ```
 
 We check that the data from the sensors has gone and add to autorun: 
 
 ```
-cd /opt/lumi
+cd /opt/lumi-fr
 chmod +x lumi
 cp lumi /etc/init.d/lumi
 /etc/init.d/lumi enable
@@ -109,7 +109,7 @@ cp lumi /etc/init.d/lumi
 
 ```
 /etc/init.d/lumi stop
-cd /opt/lumi
+cd /opt/lumi-fr
 git pull
 /etc/init.d/lumi start
 ```
